@@ -5,16 +5,13 @@
 
 #include <SDL.h>
 
-SDL_Window* window = nullptr;
-SDL_Surface* windowGlobalSurface = nullptr;
-SDL_Surface* imageSurface = nullptr;
+#include "sdlutils/SDLLoader.h"
 
-
-static int32_t loadResources() {
+static int32_t loadResources(SDL_Surface*& outImageSurface) {
 	const std::string filePath = "../assets/hello.bmp";
-	imageSurface = SDL_LoadBMP(filePath.c_str());
+	outImageSurface = SDL_LoadBMP(filePath.c_str());
 
-	if (imageSurface == nullptr) {
+	if (outImageSurface == nullptr) {
 		std::cerr << "SDL_LoadBMP() failed. Reason: " << SDL_GetError() << std::endl;
 		return EXIT_FAILURE;
 	}
@@ -22,7 +19,7 @@ static int32_t loadResources() {
 	return EXIT_SUCCESS;
 }
 
-static void draw() {
+static void draw(SDL_Surface* imageSurface, SDL_Surface* windowGlobalSurface, SDL_Window* window) {
 	SDL_BlitSurface(imageSurface, nullptr, windowGlobalSurface, nullptr);
 
 	if (EXIT_SUCCESS != SDL_UpdateWindowSurface(window)) {
@@ -33,33 +30,28 @@ static void draw() {
 	SDL_Delay(5000);
 }
 
-static int32_t init() {
-	if (EXIT_SUCCESS != SDL_Init(SDL_INIT_VIDEO)) {
-		std::cerr << "SDL_Init() failed. Reason: " << SDL_GetError() << std::endl;
-		return EXIT_FAILURE;
-	}
-
+static int32_t init(SDL_Window*& outWindow, SDL_Surface*& outWindowGlobalSurface, SDL_Surface*& outImageSurface) {
 	const std::string windowName = "Hello, World!";
 	const int32_t windowX = SDL_WINDOWPOS_UNDEFINED;
 	const int32_t windowY = SDL_WINDOWPOS_UNDEFINED;
 	const int32_t windowWidth = 640;
 	const int32_t windowHeight = 480;
 
-	window = SDL_CreateWindow(windowName.c_str(), windowX, windowY, windowWidth, windowHeight, SDL_WINDOW_SHOWN);
+	outWindow = SDL_CreateWindow(windowName.c_str(), windowX, windowY, windowWidth, windowHeight, SDL_WINDOW_SHOWN);
 
-	if (window == nullptr) {
+	if (outWindow == nullptr) {
 		std::cerr << "SDL_CreateWindow() failed. Reason: " << SDL_GetError() << std::endl;
 		return EXIT_FAILURE;
 	}
 
-	windowGlobalSurface = SDL_GetWindowSurface(window);
+	outWindowGlobalSurface = SDL_GetWindowSurface(outWindow);
 
-	if (windowGlobalSurface == nullptr) {
+	if (outWindowGlobalSurface == nullptr) {
 		std::cerr << "SDL_GetWindowSurface() failed. Reason: " << SDL_GetError() << std::endl;
 		return EXIT_FAILURE;
 	}
 
-	if (loadResources() == EXIT_FAILURE) {
+	if (loadResources(outImageSurface) == EXIT_FAILURE) {
 		std::cerr << "loadResources() failed" << std::endl;
 		return EXIT_FAILURE;
 	}
@@ -67,30 +59,50 @@ static int32_t init() {
 	return EXIT_SUCCESS;
 }
 
-static void deinit() {
-	if (imageSurface != nullptr) {
-		SDL_FreeSurface(imageSurface);
-		imageSurface = nullptr;
+static void deinit(SDL_Surface*& outImageSurface, SDL_Window*& outWindow) {
+	if (outImageSurface != nullptr) {
+		SDL_FreeSurface(outImageSurface);
+		outImageSurface = nullptr;
 	}
 
-	if (window != nullptr) {
-		SDL_DestroyWindow(window);
-		window = nullptr;
+	if (outWindow != nullptr) {
+		SDL_DestroyWindow(outWindow);
+		outWindow = nullptr;
 	}
-
-	SDL_Quit();
 }
 
-int32_t main([[maybe_unused]]int32_t argc, [[maybe_unused]]char** argv) {
-	if (EXIT_SUCCESS != init()) {
+static int32_t runApplication() {
+	SDL_Window* window = nullptr;
+	SDL_Surface* windowGlobalSurface = nullptr;
+	SDL_Surface* imageSurface = nullptr;
+
+	if (EXIT_SUCCESS != init(window, windowGlobalSurface, imageSurface)) {
 		std::cerr << "init() failed" << std::endl;
 
 		return EXIT_FAILURE;
 	}
 
-	draw();
+	draw(imageSurface, windowGlobalSurface, window);
 
-	deinit();
+	deinit(imageSurface, window);
+
+	return EXIT_SUCCESS;
+}
+
+int32_t main([[maybe_unused]]int32_t argc, [[maybe_unused]]char** argv) {
+	if (EXIT_SUCCESS != SDLLoader::init()) {
+		std::cerr << "SDLLoader::init() failed" << std::endl;
+
+		return EXIT_FAILURE;
+	}
+
+	if (EXIT_SUCCESS != runApplication()) {
+		std::cerr << "runApplication() failed" << std::endl;
+
+		return EXIT_FAILURE;
+	}
+
+	SDLLoader::deinit();
 
 	return EXIT_SUCCESS;
 }
