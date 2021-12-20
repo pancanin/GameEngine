@@ -25,6 +25,10 @@ add_executable(${PROJECT_NAME}
 				${SRC_DIR}/main.cpp
 				${SRC_DIR}/sdlutils/SDLLoader.h
 				${SRC_DIR}/sdlutils/SDLLoader.cpp
+				${SRC_DIR}/sdlutils/MonitorWindow.h
+				${SRC_DIR}/sdlutils/MonitorWindow.cpp
+				${SRC_DIR}/sdlutils/Texture.h
+				${SRC_DIR}/sdlutils/Texture.cpp
 				${SRC_DIR}/utils/drawing/Point.h
 				${SRC_DIR}/utils/drawing/Point.cpp
 				${SRC_DIR}/utils/drawing/Rectangle.h

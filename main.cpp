@@ -4,50 +4,44 @@
 #include <string>
 
 #include <SDL.h>
+#include <SDL_image.h>
 
 #include "sdlutils/SDLLoader.h"
+#include "sdlutils/MonitorWindow.h"
+#include "sdlutils/Texture.h"
 
 static int32_t loadResources(SDL_Surface*& outImageSurface) {
-	const std::string filePath = "../assets/hello.bmp";
-	outImageSurface = SDL_LoadBMP(filePath.c_str());
+	const std::string filePath = "../assets/hello.png";
 
-	if (outImageSurface == nullptr) {
-		std::cerr << "SDL_LoadBMP() failed. Reason: " << SDL_GetError() << std::endl;
+	if (EXIT_SUCCESS != Texture::createSurfaceFromFile(filePath, outImageSurface)) {
+		std::cerr << "createSurfaceFromFile() failed" << std::endl;
 		return EXIT_FAILURE;
 	}
 
 	return EXIT_SUCCESS;
 }
 
-static void draw(SDL_Surface* imageSurface, SDL_Surface* windowGlobalSurface, SDL_Window* window) {
-	SDL_BlitSurface(imageSurface, nullptr, windowGlobalSurface, nullptr);
+static void draw(MonitorWindow& window, SDL_Surface* imageSurface) {
+	SDL_BlitSurface(imageSurface, nullptr, window.getWindowSurface(), nullptr);
 
-	if (EXIT_SUCCESS != SDL_UpdateWindowSurface(window)) {
-		std::cerr << "SDL_UpdateWindowSurface() failed. Reason: " << SDL_GetError() << std::endl;
+	if (EXIT_SUCCESS != window.update()) {
+		std::cerr << "window.update() failed. Reason: " << SDL_GetError() << std::endl;
 		return;
 	}
 
 	SDL_Delay(5000);
 }
 
-static int32_t init(SDL_Window*& outWindow, SDL_Surface*& outWindowGlobalSurface, SDL_Surface*& outImageSurface) {
-	const std::string windowName = "Hello, World!";
-	const int32_t windowX = SDL_WINDOWPOS_UNDEFINED;
-	const int32_t windowY = SDL_WINDOWPOS_UNDEFINED;
-	const int32_t windowWidth = 640;
-	const int32_t windowHeight = 480;
+static int32_t init(MonitorWindow& outWindow, SDL_Surface*& outImageSurface) {
+	MonitorWindowCfg config;
+	config.name = "Hello, World!";
+	config.position.x = SDL_WINDOWPOS_UNDEFINED;
+	config.position.y = SDL_WINDOWPOS_UNDEFINED;
+	config.w = 640;
+	config.h = 480;
 
-	outWindow = SDL_CreateWindow(windowName.c_str(), windowX, windowY, windowWidth, windowHeight, SDL_WINDOW_SHOWN);
-
-	if (outWindow == nullptr) {
-		std::cerr << "SDL_CreateWindow() failed. Reason: " << SDL_GetError() << std::endl;
-		return EXIT_FAILURE;
-	}
-
-	outWindowGlobalSurface = SDL_GetWindowSurface(outWindow);
-
-	if (outWindowGlobalSurface == nullptr) {
-		std::cerr << "SDL_GetWindowSurface() failed. Reason: " << SDL_GetError() << std::endl;
+	if (EXIT_SUCCESS != outWindow.init(config)) {
+		std::cerr << "outWindow.init() failed" << std::endl;
 		return EXIT_FAILURE;
 	}
 
@@ -59,30 +53,23 @@ static int32_t init(SDL_Window*& outWindow, SDL_Surface*& outWindowGlobalSurface
 	return EXIT_SUCCESS;
 }
 
-static void deinit(SDL_Surface*& outImageSurface, SDL_Window*& outWindow) {
-	if (outImageSurface != nullptr) {
-		SDL_FreeSurface(outImageSurface);
-		outImageSurface = nullptr;
-	}
+static void deinit(SDL_Surface*& outImageSurface, MonitorWindow& window) {
+	Texture::deinit(outImageSurface);
 
-	if (outWindow != nullptr) {
-		SDL_DestroyWindow(outWindow);
-		outWindow = nullptr;
-	}
+	window.deinit();
 }
 
 static int32_t runApplication() {
-	SDL_Window* window = nullptr;
-	SDL_Surface* windowGlobalSurface = nullptr;
+	MonitorWindow window;
 	SDL_Surface* imageSurface = nullptr;
 
-	if (EXIT_SUCCESS != init(window, windowGlobalSurface, imageSurface)) {
+	if (EXIT_SUCCESS != init(window, imageSurface)) {
 		std::cerr << "init() failed" << std::endl;
 
 		return EXIT_FAILURE;
 	}
 
-	draw(imageSurface, windowGlobalSurface, window);
+	draw(window, imageSurface);
 
 	deinit(imageSurface, window);
 

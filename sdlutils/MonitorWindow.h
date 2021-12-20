@@ -9,24 +9,25 @@
 #define SDLUTILS_MONITORWINDOW_H_
 
 #include "utils/drawing/Rectangle.h"
+#include "utils/drawing/Point.h"
 
 #include <string>
 
 struct SDL_Window;
+struct SDL_Surface;
 
 struct MonitorWindowCfg {
 	std::string name;
-	int32_t x;
-	int32_t y;
-	int32_t w;
-	int32_t h;
-	int32_t flags;
+	Point position = Point::UNDEFINED;
+	int32_t w = 0;
+	int32_t h = 0;
+	int32_t flags = 0;
 };
 
 class MonitorWindow {
 public:
 	MonitorWindow();
-	virtual ~MonitorWindow();
+	~MonitorWindow();
 
 	MonitorWindow(const MonitorWindow& other) = delete;
 	MonitorWindow(MonitorWindow&& other) = delete;
@@ -34,7 +35,11 @@ public:
 	MonitorWindow& operator=(const MonitorWindow& other) = delete;
 	MonitorWindow& operator=(MonitorWindow&& other) = delete;
 
-	void init(const MonitorWindowCfg& config);
+	int32_t init(const MonitorWindowCfg& config);
+	int32_t update();
+	void deinit();
+
+	SDL_Surface* getWindowSurface();
 private:
 	SDL_Window* _window = nullptr;
 	Rectangle _windowRect;
