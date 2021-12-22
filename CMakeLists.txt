@@ -36,6 +36,10 @@ add_executable(${PROJECT_NAME}
 				${SRC_DIR}/utils/drawing/Rectangle.h
 				${SRC_DIR}/utils/drawing/Rectangle.cpp
 				${SRC_DIR}/utils/input/EventDefines.h
+				${SRC_DIR}/utils/thread/ThreadUtils.cpp
+				${SRC_DIR}/utils/thread/ThreadUtils.h
+				${SRC_DIR}/utils/time/Time.cpp
+				${SRC_DIR}/utils/time/Time.h
 				${SRC_DIR}/engine/Engine.h
 				${SRC_DIR}/engine/Engine.cpp)
 

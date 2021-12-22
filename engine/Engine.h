@@ -15,23 +15,30 @@
 
 struct SDL_Surface;
 
+enum Images {
+  UP, DOWN, LEFT, RIGHT, ALL_KEYS, COUNT
+};
+
+
 class Engine {
 public:
 	int32_t init();
 	void deinit();
 	void start();
 private:
-	int32_t loadResources(SDL_Surface *&surface);
+	int32_t loadResources();
 
 	void mainLoop();
 	void drawFrame();
 	bool processFrame();
 	void handleEvent();
+	void limitFPS(int64_t microseconds);
 
 	MonitorWindow _window;
 	InputEvent _event;
 	SDL_Surface* _screenSurface = nullptr;
-	SDL_Surface* _imageSurface = nullptr;
+	SDL_Surface* _imageSurfaces[COUNT] {};
+	SDL_Surface* _currentImage = nullptr;
 };
 
 #endif /* ENGINE_ENGINE_H_ */
