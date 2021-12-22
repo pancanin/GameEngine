@@ -9,6 +9,7 @@
 #include "sdlutils/SDLLoader.h"
 #include "sdlutils/MonitorWindow.h"
 #include "sdlutils/Texture.h"
+#include "sdlutils/InputEvent.h"
 
 static int32_t loadResources(SDL_Surface*& outImageSurface) {
 	const std::string filePath = "../assets/hello.png";
@@ -62,6 +63,8 @@ static void deinit(SDL_Surface*& outImageSurface, MonitorWindow& window) {
 static int32_t runApplication() {
 	MonitorWindow window;
 	SDL_Surface* imageSurface = nullptr;
+	InputEvent event;
+	event.init();
 
 	if (EXIT_SUCCESS != init(window, imageSurface)) {
 		std::cerr << "init() failed" << std::endl;
@@ -69,9 +72,18 @@ static int32_t runApplication() {
 		return EXIT_FAILURE;
 	}
 
+	while (true) {
+		while (event.poll()) {
+			if (event.touchEvent == TouchEvent::KEYBOARD_PRESS) {
+				std::cout << "key pressed: " << event.key << std::endl;
+			}
+		}
+	}
+
 	draw(window, imageSurface);
 
 	deinit(imageSurface, window);
+	event.deinit();
 
 	return EXIT_SUCCESS;
 }

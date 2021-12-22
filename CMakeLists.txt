@@ -29,10 +29,13 @@ add_executable(${PROJECT_NAME}
 				${SRC_DIR}/sdlutils/MonitorWindow.cpp
 				${SRC_DIR}/sdlutils/Texture.h
 				${SRC_DIR}/sdlutils/Texture.cpp
+				${SRC_DIR}/sdlutils/InputEvent.cpp
+				${SRC_DIR}/sdlutils/InputEvent.h
 				${SRC_DIR}/utils/drawing/Point.h
 				${SRC_DIR}/utils/drawing/Point.cpp
 				${SRC_DIR}/utils/drawing/Rectangle.h
-				${SRC_DIR}/utils/drawing/Rectangle.cpp)
+				${SRC_DIR}/utils/drawing/Rectangle.cpp
+				${SRC_DIR}/utils/input/EventDefines.h)
 
 set_target_cpp_standard(${PROJECT_NAME} 17)
 enable_target_warnings(${PROJECT_NAME})
