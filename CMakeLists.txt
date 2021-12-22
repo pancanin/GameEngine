@@ -35,7 +35,9 @@ add_executable(${PROJECT_NAME}
 				${SRC_DIR}/utils/drawing/Point.cpp
 				${SRC_DIR}/utils/drawing/Rectangle.h
 				${SRC_DIR}/utils/drawing/Rectangle.cpp
-				${SRC_DIR}/utils/input/EventDefines.h)
+				${SRC_DIR}/utils/input/EventDefines.h
+				${SRC_DIR}/engine/Engine.h
+				${SRC_DIR}/engine/Engine.cpp)
 
 set_target_cpp_standard(${PROJECT_NAME} 17)
 enable_target_warnings(${PROJECT_NAME})
