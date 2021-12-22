@@ -22,7 +22,11 @@ public:
 	void start();
 private:
 	int32_t loadResources(SDL_Surface *&surface);
-	void draw();
+
+	void mainLoop();
+	void drawFrame();
+	bool processFrame();
+	void handleEvent();
 
 	MonitorWindow _window;
 	InputEvent _event;

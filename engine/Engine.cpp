@@ -45,7 +45,7 @@ void Engine::deinit() {
 }
 
 void Engine::start() {
-	draw();
+	mainLoop();
 }
 
 int32_t Engine::loadResources(SDL_Surface*& outImageSurface) {
@@ -59,7 +59,11 @@ int32_t Engine::loadResources(SDL_Surface*& outImageSurface) {
 	return EXIT_SUCCESS;
 }
 
-void Engine::draw() {
+void Engine::mainLoop() {
+
+}
+
+void Engine::drawFrame() {
 	SDL_BlitSurface(_imageSurface, nullptr, _window.getWindowSurface(), nullptr);
 
 	if (EXIT_SUCCESS != _window.update()) {
@@ -68,6 +72,14 @@ void Engine::draw() {
 	}
 
 	SDL_Delay(5000);
+}
+
+bool Engine::processFrame() {
+
+}
+
+void Engine::handleEvent() {
+
 }
 
 
