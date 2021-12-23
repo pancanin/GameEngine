@@ -4,13 +4,13 @@
 #include <string>
 
 #include "engine/Engine.h"
+#include "engine/EngineConfigLoader.h"
 #include "sdlutils/SDLLoader.h"
-
 
 static int32_t runApplication() {
 	Engine engine;
 
-	if (EXIT_SUCCESS != engine.init()) {
+	if (EXIT_SUCCESS != engine.init(EngineConfigLoader::load())) {
 		std::cerr << "engine.init() failed." << std::endl;
 
 		return EXIT_FAILURE;

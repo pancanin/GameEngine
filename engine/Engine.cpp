@@ -14,16 +14,10 @@
 #include "sdlutils/Texture.h"
 #include "utils/thread/ThreadUtils.h"
 #include "utils/time/Time.h"
+#include "engine/config/EngineConfig.h"
 
-int32_t Engine::init() {
-	MonitorWindowCfg config;
-	config.name = "Hello, World!";
-//	config.position.x = SDL_WINDOWPOS_UNDEFINED;
-//	config.position.y = SDL_WINDOWPOS_UNDEFINED;
-	config.w = 640;
-	config.h = 480;
-
-	if (EXIT_SUCCESS != _window.init(config)) {
+int32_t Engine::init(const EngineConfig& config) {
+	if (EXIT_SUCCESS != _window.init(config.windowCfg)) {
 		std::cerr << "_window.init() failed" << std::endl;
 		return EXIT_FAILURE;
 	}

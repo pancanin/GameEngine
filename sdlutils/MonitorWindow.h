@@ -8,21 +8,14 @@
 #ifndef SDLUTILS_MONITORWINDOW_H_
 #define SDLUTILS_MONITORWINDOW_H_
 
+#include <string>
+
 #include "utils/drawing/Rectangle.h"
 #include "utils/drawing/Point.h"
-
-#include <string>
+#include "config/MonitorWindowCfg.h"
 
 struct SDL_Window;
 struct SDL_Surface;
-
-struct MonitorWindowCfg {
-	std::string name;
-	Point position = Point::UNDEFINED;
-	int32_t w = 0;
-	int32_t h = 0;
-	int32_t flags = 0;
-};
 
 class MonitorWindow {
 public:

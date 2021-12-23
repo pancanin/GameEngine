@@ -14,6 +14,7 @@
 #include "sdlutils/InputEvent.h"
 
 struct SDL_Surface;
+struct EngineConfig;
 
 enum Images {
   UP, DOWN, LEFT, RIGHT, ALL_KEYS, COUNT
@@ -22,7 +23,7 @@ enum Images {
 
 class Engine {
 public:
-	int32_t init();
+	int32_t init(const EngineConfig& config);
 	void deinit();
 	void start();
 private:

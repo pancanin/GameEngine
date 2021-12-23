@@ -31,6 +31,7 @@ add_executable(${PROJECT_NAME}
 				${SRC_DIR}/sdlutils/Texture.cpp
 				${SRC_DIR}/sdlutils/InputEvent.cpp
 				${SRC_DIR}/sdlutils/InputEvent.h
+				${SRC_DIR}/sdlutils/config/MonitorWindowCfg.h
 				${SRC_DIR}/utils/drawing/Point.h
 				${SRC_DIR}/utils/drawing/Point.cpp
 				${SRC_DIR}/utils/drawing/Rectangle.h
@@ -41,7 +42,10 @@ add_executable(${PROJECT_NAME}
 				${SRC_DIR}/utils/time/Time.cpp
 				${SRC_DIR}/utils/time/Time.h
 				${SRC_DIR}/engine/Engine.h
-				${SRC_DIR}/engine/Engine.cpp)
+				${SRC_DIR}/engine/Engine.cpp
+				${SRC_DIR}/engine/config/EngineConfig.h
+				${SRC_DIR}/engine/EngineConfigLoader.h
+				${SRC_DIR}/engine/EngineConfigLoader.cpp)
 
 set_target_cpp_standard(${PROJECT_NAME} 17)
 enable_target_warnings(${PROJECT_NAME})
