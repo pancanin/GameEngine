@@ -16,14 +16,19 @@ struct SDL_Window;
 
 class Renderer {
 public:
+	Renderer(const Renderer& other) = delete;
+	Renderer(Renderer&& other) = delete;
+
+	Renderer& operator=(const Renderer& other) = delete;
+	Renderer& operator=(Renderer&& other) = delete;
+
 	int32_t init(SDL_Window *window);
 	void deinit();
 	void clearScreen();
 	void finishFrame();
 	void renderTexture(SDL_Texture *texture);
-  //forbid the copy/move constructors and assignment operators
 private:
-	SDL_Renderer *_sdlRenderer = nullptr;
+	SDL_Renderer* _sdlRenderer = nullptr;
 };
 
 #endif /* SDLUTILS_RENDERER_H_ */
