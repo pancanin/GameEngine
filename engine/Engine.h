@@ -12,14 +12,10 @@
 
 #include "sdlutils/MonitorWindow.h"
 #include "sdlutils/InputEvent.h"
+#include "game/Game.h"
 
 struct SDL_Surface;
 struct EngineConfig;
-
-enum Images {
-  UP, DOWN, LEFT, RIGHT, ALL_KEYS, COUNT
-};
-
 
 class Engine {
 public:
@@ -27,8 +23,6 @@ public:
 	void deinit();
 	void start();
 private:
-	int32_t loadResources();
-
 	void mainLoop();
 	void drawFrame();
 	bool processFrame();
@@ -38,8 +32,7 @@ private:
 	MonitorWindow _window;
 	InputEvent _event;
 	SDL_Surface* _screenSurface = nullptr;
-	SDL_Surface* _imageSurfaces[COUNT] {};
-	SDL_Surface* _currentImage = nullptr;
+	Game game;
 };
 
 #endif /* ENGINE_ENGINE_H_ */

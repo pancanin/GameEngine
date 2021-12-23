@@ -45,7 +45,9 @@ add_executable(${PROJECT_NAME}
 				${SRC_DIR}/engine/Engine.cpp
 				${SRC_DIR}/engine/config/EngineConfig.h
 				${SRC_DIR}/engine/EngineConfigLoader.h
-				${SRC_DIR}/engine/EngineConfigLoader.cpp)
+				${SRC_DIR}/engine/EngineConfigLoader.cpp
+				${SRC_DIR}/game/Game.h
+				${SRC_DIR}/game/Game.cpp)
 
 set_target_cpp_standard(${PROJECT_NAME} 17)
 enable_target_warnings(${PROJECT_NAME})
