@@ -32,6 +32,8 @@ add_executable(${PROJECT_NAME}
 				${SRC_DIR}/sdlutils/InputEvent.cpp
 				${SRC_DIR}/sdlutils/InputEvent.h
 				${SRC_DIR}/sdlutils/config/MonitorWindowCfg.h
+				${SRC_DIR}/sdlutils/Renderer.h
+				${SRC_DIR}/sdlutils/Renderer.cpp
 				${SRC_DIR}/utils/drawing/Point.h
 				${SRC_DIR}/utils/drawing/Point.cpp
 				${SRC_DIR}/utils/drawing/Rectangle.h

@@ -11,9 +11,11 @@
 #include <cstdint>
 
 #include "sdlutils/config/MonitorWindowCfg.h"
+#include "game/GameCfg.h"
 
 struct EngineConfig {
 	MonitorWindowCfg windowCfg;
+	GameCfg gameCfg;
 };
 
 

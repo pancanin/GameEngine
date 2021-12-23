@@ -10,27 +10,15 @@
 #include <string>
 #include <array>
 #include <iostream>
+#include <unordered_map>
 
 #include "sdlutils/Texture.h"
 #include "sdlutils/InputEvent.h"
 
-int32_t Game::loadResources() {
-	const std::string ROOT = "../assets/";
-	const std::string EX = ".png";
-
-	const std::array<std::string, COUNT> filePaths = {
-			ROOT + "up" + EX,
-			ROOT + "down" + EX,
-			ROOT + "left" + EX,
-			ROOT + "right" + EX,
-			ROOT + "press_keys" + EX,
-	};
-
-	int32_t idx = 0;
-
-	for (const auto& path : filePaths) {
-		if (EXIT_SUCCESS != Texture::createSurfaceFromFile(path, _imageSurfaces[idx++])) {
-			std::cerr << "createSurfaceFromFile() failed for file " << path << std::endl;
+int32_t Game::loadResources(const std::unordered_map<Images, std::string>& imagePaths) {
+	for (const auto& imagePath : imagePaths) {
+		if (EXIT_SUCCESS != Texture::createSurfaceFromFile(imagePath.second, _imageSurfaces[imagePath.first])) {
+			std::cerr << "createSurfaceFromFile() failed for file " << imagePath.second << std::endl;
 			return EXIT_FAILURE;
 		}
 	}
@@ -38,8 +26,8 @@ int32_t Game::loadResources() {
 	return EXIT_SUCCESS;
 }
 
-int32_t Game::init() {
-	if (loadResources() == EXIT_FAILURE) {
+int32_t Game::init(const GameCfg& config) {
+	if (loadResources(config.imagePaths) == EXIT_FAILURE) {
 		std::cerr << "loadResources() failed" << std::endl;
 		return EXIT_FAILURE;
 	}

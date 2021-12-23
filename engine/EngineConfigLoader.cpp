@@ -6,6 +6,7 @@
  */
 
 #include "EngineConfigLoader.h"
+#include "game/GameCfg.h"
 
 namespace {
 	constexpr auto WINDOW_WIDTH = 640;
@@ -21,10 +22,23 @@ static void populateMonitorConfig(MonitorWindowCfg& config) {
 	config.h = WINDOW_HEIGHT;
 }
 
+static void populateGameConfig(GameCfg& config) {
+	const std::string ROOT = "../assets/";
+	const std::string EX = ".png";
+
+	config.imagePaths[UP] = ROOT + "up" + EX;
+	config.imagePaths[DOWN] = ROOT + "down" + EX;
+	config.imagePaths[LEFT] = ROOT + "left" + EX;
+	config.imagePaths[RIGHT] = ROOT + "right" + EX;
+	config.imagePaths[ALL_KEYS] = ROOT + "press_keys" + EX;
+	config.imagePaths[LAYER_2] = ROOT + "layer_2" + EX;
+}
+
 EngineConfig EngineConfigLoader::load() {
 	EngineConfig config;
 
 	populateMonitorConfig(config.windowCfg);
+	populateGameConfig(config.gameCfg);
 
 	return config;
 }

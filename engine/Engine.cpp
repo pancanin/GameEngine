@@ -27,7 +27,7 @@ int32_t Engine::init(const EngineConfig& config) {
 		return EXIT_FAILURE;
 	}
 
-	if (game.init() == EXIT_FAILURE) {
+	if (game.init(config.gameCfg) == EXIT_FAILURE) {
 		std::cerr << "game.init() failed" << std::endl;
 		return EXIT_FAILURE;
 	}
