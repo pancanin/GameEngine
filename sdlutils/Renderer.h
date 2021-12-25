@@ -13,6 +13,7 @@
 struct SDL_Renderer;
 struct SDL_Texture;
 struct SDL_Window;
+struct Texture;
 
 class Renderer {
 public:
@@ -26,7 +27,7 @@ public:
 	void deinit();
 	void clearScreen();
 	void finishFrame();
-	void renderTexture(SDL_Texture *texture);
+	void renderTexture(Texture* texture);
 private:
 	SDL_Renderer* _sdlRenderer = nullptr;
 };

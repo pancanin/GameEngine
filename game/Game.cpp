@@ -12,12 +12,12 @@
 #include <iostream>
 #include <unordered_map>
 
-#include "sdlutils/Texture.h"
+#include "sdlutils/AssetLoader.h"
 #include "sdlutils/InputEvent.h"
 
 int32_t Game::loadResources(const std::unordered_map<Images, std::string>& imagePaths) {
 	for (const auto& imagePath : imagePaths) {
-		if (EXIT_SUCCESS != Texture::createSurfaceFromFile(imagePath.second, _imageSurfaces[imagePath.first])) {
+		if (EXIT_SUCCESS != AssetLoader::createSurfaceFromFile(imagePath.second, _imageSurfaces[imagePath.first])) {
 			std::cerr << "createSurfaceFromFile() failed for file " << imagePath.second << std::endl;
 			return EXIT_FAILURE;
 		}
@@ -39,7 +39,7 @@ int32_t Game::init(const GameCfg& config) {
 
 void Game::deinit() {
 	for (int32_t idx = 0; idx < COUNT; idx++) {
-		Texture::deinit(_imageSurfaces[idx]);
+		AssetLoader::deinit(_imageSurfaces[idx]);
 	}
 }
 

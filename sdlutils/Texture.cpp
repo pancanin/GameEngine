@@ -10,20 +10,20 @@
 
 #include "Texture.h"
 
-int32_t Texture::createSurfaceFromFile(const std::string& filePath, SDL_Surface*& outImageSurface) {
-	outImageSurface = IMG_Load(filePath.c_str());
-
-	if (outImageSurface == nullptr) {
-		std::cerr << "SDL_LoadBMP() failed. Reason: " << SDL_GetError() << std::endl;
-		return EXIT_FAILURE;
-	}
-
-	return EXIT_SUCCESS;
+void Texture::init(const SDL_Texture*& texture, const SDL_Surface*& surface) {
+	_texture = texture;
+	_surface = surface;
 }
 
-void Texture::deinit(SDL_Surface*& surface) {
-	if (surface != nullptr) {
-		SDL_FreeSurface(surface);
-		surface = nullptr;
+SDL_Texture* Texture::raw() const {
+	return _texture;
+}
+
+void Texture::deinit() {
+	if (_surface != nullptr) {
+		SDL_FreeSurface(_surface);
+		_surface = nullptr;
 	}
+
+	SDL_DestroyTexture(_texture);
 }

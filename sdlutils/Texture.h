@@ -8,17 +8,18 @@
 #ifndef SDLUTILS_TEXTURE_H_
 #define SDLUTILS_TEXTURE_H_
 
-#include <string>
-
+struct SDL_Texture;
 struct SDL_Surface;
 
 class Texture {
 public:
-	Texture() = delete;
-	~Texture() = delete;
+	void init(const SDL_Texture*& texture, const SDL_Surface*& surface);
+	void deinit();
 
-	static int32_t createSurfaceFromFile(const std::string& filePath, SDL_Surface*& surface);
-	static void deinit(SDL_Surface*& surface);
+	SDL_Texture* raw() const;
+private:
+	SDL_Texture* _texture;
+	SDL_Surface* _surface;
 };
 
 #endif /* SDLUTILS_TEXTURE_H_ */

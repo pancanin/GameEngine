@@ -11,6 +11,8 @@
 
 #include <SDL_render.h>
 
+#include "sdlutils/Texture.h"
+
 //SDL_CreateRenderer() //pass SDL_RENDERER_ACCELERATED as flags
 //SDL_SetRenderDrawColor()
 //SDL_DestroyRenderer()
@@ -48,5 +50,9 @@ void Renderer::clearScreen() {
 	}
 }
 
-void finishFrame();
-void renderTexture(SDL_Texture *texture);
+void Renderer::finishFrame() {
+	SDL_RenderPresent(_sdlRenderer);
+}
+void Renderer::renderTexture(Texture* texture) {
+	SDL_RenderCopy(_sdlRenderer, texture->raw(), nullptr, nullptr);
+}
